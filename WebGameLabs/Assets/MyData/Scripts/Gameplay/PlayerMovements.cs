@@ -33,18 +33,18 @@ public class PlayerMovements : MonoBehaviour
 
     private void OnEnable()
     {
-        inputActions.Enable();
+        inputActions.Player.Enable();
         inputActions.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => move = Vector2.zero;
-        inputActions.Player.Jump.performed += Jump;
+        inputActions.Player.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
-        inputActions.Disable();
+        inputActions.Player.Disable();
     }
 
-    private void Jump(InputAction.CallbackContext context)
+    private void OnJump(InputAction.CallbackContext context)
     {
         if (isGrounded)
         {
@@ -54,16 +54,13 @@ public class PlayerMovements : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var movement = camTransform.forward * move.y + camTransform.right * move.x;
+        HandleMovement();
 
-        movement.y = 0;
-        movement.Normalize();
+        HandleGravity();
+    }
 
-        controller.Move(Time.fixedDeltaTime * speed * movement);
-
-        if(movement != Vector3.zero)
-            transform.forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * 15f);
-
+    private void HandleGravity()
+    {
         isGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
 
         if (isGrounded && velocity.y < 0)
@@ -74,6 +71,24 @@ public class PlayerMovements : MonoBehaviour
         velocity.y += gravityScale * Time.fixedDeltaTime;
 
         controller.Move(velocity * Time.fixedDeltaTime);
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 movement;
+
+        if (cameraRelative)
+            movement = camTransform.forward * move.y + camTransform.right * move.x;
+        else
+            movement = new Vector3(move.x, 0, move.y);
+
+        movement.y = 0;
+        movement.Normalize();
+
+        controller.Move(Time.fixedDeltaTime * speed * movement);
+
+        if (movement != Vector3.zero)
+            transform.forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * turnSpeed);
     }
 
     private void OnDrawGizmosSelected()
