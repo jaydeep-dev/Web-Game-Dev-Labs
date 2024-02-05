@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
@@ -7,6 +8,8 @@ public class PlayerMovements : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed = 15f;
+    [SerializeField] private bool cameraRelative = true;
+    private Transform camTransform;
     private Vector2 move;
 
     [Header("Jump")]
@@ -25,6 +28,7 @@ public class PlayerMovements : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         controller = GetComponent<CharacterController>();
+        camTransform = Camera.main.transform;
     }
 
     private void OnEnable()
@@ -50,9 +54,12 @@ public class PlayerMovements : MonoBehaviour
 
     private void FixedUpdate()
     {
-        var movement = new Vector3(move.x, 0f, move.y) * speed;
+        var movement = camTransform.forward * move.y + camTransform.right * move.x;
 
-        controller.Move(Time.fixedDeltaTime * movement);
+        movement.y = 0;
+        movement.Normalize();
+
+        controller.Move(Time.fixedDeltaTime * speed * movement);
 
         if(movement != Vector3.zero)
             transform.forward = Vector3.Slerp(transform.forward, movement, Time.fixedDeltaTime * 15f);
