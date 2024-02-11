@@ -6,24 +6,37 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyMovements : MonoBehaviour
 {
+    [SerializeField] private bool useNavmesh;
     [SerializeField] private Transform targetTrans;
+    [SerializeField] private float speed;
     [SerializeField, Range(.1f, 1f)] private float reTargetTime;
 
     private NavMeshAgent agent;
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
+        if (useNavmesh)
+            agent = GetComponent<NavMeshAgent>();
     }
 
-    private void Start()
+    private void FixedUpdate()
     {
-        InvokeRepeating(nameof(SetTargetDestination), 0, reTargetTime);
-    }
+        if (!useNavmesh)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetTrans.position, Time.fixedDeltaTime * speed);
+            if (Vector3.Distance(transform.position, targetTrans.position) <= 1.5f)
+            {
+                targetTrans.GetComponent<IDamagable>().TakeDamage(1);
+            }
 
-    private void SetTargetDestination()
-    {
-        if (agent.destination != targetTrans.position)
-            agent.SetDestination(targetTrans.position);
+            transform.LookAt(targetTrans, Vector3.up);
+        }
+        else
+        {
+            if (!agent.pathPending && agent.destination != targetTrans.position && agent.remainingDistance < 1f)
+            {
+                agent.SetDestination(targetTrans.position);
+            }
+        }
     }
 }

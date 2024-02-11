@@ -1,3 +1,5 @@
+using Cinemachine;
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -10,6 +12,7 @@ public class PlayerMovements : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed = 15f;
     [SerializeField] private bool cameraRelative = true;
+    [SerializeField] private CinemachineVirtualCameraBase playerCam;
     private Transform camTransform;
 
     [Header("Jump")]
@@ -23,23 +26,34 @@ public class PlayerMovements : MonoBehaviour
 
     private CharacterController controller;
     private PlayerInputController inputController;
+    private HealthManager healthManager;
+
+    public Subject<PlayerEvents> subject { get; private set; } = new Subject<PlayerEvents>();
     #endregion
 
     private void Awake()
     {
         inputController = GetComponent<PlayerInputController>();
         controller = GetComponent<CharacterController>();
+        healthManager = GetComponent<HealthManager>();
         camTransform = Camera.main.transform;
     }
 
     private void OnEnable()
     {
         inputController.OnJumpPerformed += OnJump;
+        healthManager.OnDie += OnDie;
     }
 
     private void OnDisable()
     {
         inputController.OnJumpPerformed -= OnJump;
+        healthManager.OnDie -= OnDie;
+    }
+
+    private void OnDie()
+    {
+        playerCam.gameObject.SetActive(false);
     }
 
     private void OnJump()

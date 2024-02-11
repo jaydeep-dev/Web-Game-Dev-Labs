@@ -15,3 +15,9 @@ public enum Scenes
     Mainmenu,
     Gameplay
 }
+
+public enum PlayerEvents
+{
+    Alive,
+    Dead,
+}
