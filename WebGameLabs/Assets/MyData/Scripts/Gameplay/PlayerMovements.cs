@@ -5,51 +5,54 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovements : MonoBehaviour
 {
+    #region Variables
     [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float turnSpeed = 15f;
     [SerializeField] private bool cameraRelative = true;
     private Transform camTransform;
-    private Vector2 move;
 
     [Header("Jump")]
+    [SerializeField] private bool isGrounded;
     [SerializeField] private float jumpHeight;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float checkRadius;
     [SerializeField] private float gravityScale = -30f;
     [SerializeField] private LayerMask groundLayer;
-    private bool isGrounded;
     private Vector2 velocity;
 
     private CharacterController controller;
-    private PlayerInputActions inputActions;
+    private PlayerInputController inputController;
+    #endregion
 
     private void Awake()
     {
-        inputActions = new PlayerInputActions();
+        inputController = GetComponent<PlayerInputController>();
         controller = GetComponent<CharacterController>();
         camTransform = Camera.main.transform;
     }
 
     private void OnEnable()
     {
-        inputActions.Player.Enable();
-        inputActions.Player.Move.performed += ctx => move = ctx.ReadValue<Vector2>();
-        inputActions.Player.Move.canceled += ctx => move = Vector2.zero;
-        inputActions.Player.Jump.performed += OnJump;
+        inputController.OnJumpPerformed += OnJump;
     }
 
     private void OnDisable()
     {
-        inputActions.Player.Disable();
+        inputController.OnJumpPerformed -= OnJump;
     }
 
-    private void OnJump(InputAction.CallbackContext context)
+    private void OnJump()
     {
         if (isGrounded)
         {
             velocity.y += Mathf.Sqrt(jumpHeight * -3f * gravityScale);
         }
+    }
+
+    private void Update()
+    {
+        isGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
     }
 
     private void FixedUpdate()
@@ -61,8 +64,6 @@ public class PlayerMovements : MonoBehaviour
 
     private void HandleGravity()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, checkRadius, groundLayer);
-
         if (isGrounded && velocity.y < 0)
         {
             velocity.y = 0f;
@@ -75,6 +76,7 @@ public class PlayerMovements : MonoBehaviour
 
     private void HandleMovement()
     {
+        Vector2 move = inputController.MoveInput;
         Vector3 movement;
 
         if (cameraRelative)
