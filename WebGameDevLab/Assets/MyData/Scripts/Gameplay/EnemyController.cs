@@ -12,11 +12,20 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private bool canDamage = false;
 
     private float currentDamagetime;
+    private NavMeshAgent agent;
+
+    private void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.SetDestination(targetTrans.position);
+    }
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetTrans.position, Time.fixedDeltaTime * speed);
-        transform.LookAt(targetTrans, Vector3.up);
+        if (!agent.pathPending)
+            agent.SetDestination(targetTrans.position);
+        //transform.position = Vector3.MoveTowards(transform.position, targetTrans.position, Time.fixedDeltaTime * speed);
+        //transform.LookAt(targetTrans, Vector3.up);
 
         CheckAndDamagePlayer();
     }
