@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Healthbar")]
     [SerializeField] private Image healthbar;
 
+    [Header("Score")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+
+    [Header("UI Panels")]
     [SerializeField] private GameObject gameoverPanel;
     [SerializeField] private GameObject pausePanel;
 
     private PlayerMovements player;
     private HealthManager playerHealthManager;
-
     private PlayerInputActions inputActions;
     private Coroutine healthBarTween;
 
@@ -35,6 +40,8 @@ public class UIManager : MonoBehaviour
         playerHealthManager.OnDie += OnDie;
 
         inputActions.UI.Pause.performed += Pause_performed;
+
+        PlayerCollectHandler.OnPlayerScoreChanged += OnScoreUpdated;
     }
 
     private void OnDisable()
@@ -45,7 +52,11 @@ public class UIManager : MonoBehaviour
         playerHealthManager.OnDie -= OnDie;
 
         inputActions.UI.Pause.performed -= Pause_performed;
+
+        PlayerCollectHandler.OnPlayerScoreChanged -= OnScoreUpdated;
     }
+
+    private void OnScoreUpdated(int score) => scoreText.text = $"Score: {score}";
 
     private void Pause_performed(InputAction.CallbackContext obj)
     {

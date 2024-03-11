@@ -17,17 +17,18 @@ public class EnemyController : MonoBehaviour
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(targetTrans.position);
+        agent.speed = speed;
     }
 
     private void FixedUpdate()
     {
-        if (!agent.pathPending)
-            agent.SetDestination(targetTrans.position);
-        //transform.position = Vector3.MoveTowards(transform.position, targetTrans.position, Time.fixedDeltaTime * speed);
-        //transform.LookAt(targetTrans, Vector3.up);
-
         CheckAndDamagePlayer();
+
+        if (agent.pathPending || agent.destination == targetTrans.position)
+            return;
+
+        agent.SetDestination(targetTrans.position);
+
     }
 
     private void CheckAndDamagePlayer()
