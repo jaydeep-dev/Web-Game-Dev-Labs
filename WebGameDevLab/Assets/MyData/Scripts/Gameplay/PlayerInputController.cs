@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour
 {
@@ -13,8 +14,8 @@ public class PlayerInputController : MonoBehaviour
     {
         inputActions = new PlayerInputActions();
         healthManager = GetComponent<HealthManager>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
     }
 
     private void OnEnable()
@@ -30,6 +31,21 @@ public class PlayerInputController : MonoBehaviour
     {
         inputActions.Player.Disable();
         healthManager.OnDie -= OnDie;
+    }
+
+    public void OnTouch_Jump(InputAction.CallbackContext context)
+    {
+        OnJumpPerformed?.Invoke();
+    }
+
+    public void OnTouch_Look(InputAction.CallbackContext context)
+    {
+
+    }
+
+    public void OnTouch_Move(InputAction.CallbackContext context)
+    {
+        MoveInput = context.ReadValue<Vector2>();
     }
 
     private void OnDie()

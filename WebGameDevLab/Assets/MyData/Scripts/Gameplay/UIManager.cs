@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private bool useCursor;
+
     [Header("Healthbar")]
     [SerializeField] private Image healthbar;
 
@@ -62,6 +64,10 @@ public class UIManager : MonoBehaviour
     {
         bool isPaused = !pausePanel.activeInHierarchy;
         pausePanel.SetActive(isPaused);
+
+        if (useCursor)
+            return;
+
         Cursor.lockState =  isPaused ? CursorLockMode.None : CursorLockMode.Locked;
         Cursor.visible = isPaused;
     }
@@ -99,6 +105,10 @@ public class UIManager : MonoBehaviour
     public void OnResumeBtn()
     {
         pausePanel.SetActive(false);
+
+        if (useCursor)
+            return;
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
