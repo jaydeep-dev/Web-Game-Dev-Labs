@@ -13,11 +13,23 @@ public class EnemyController : MonoBehaviour
 
     private float currentDamagetime;
     private NavMeshAgent agent;
+    private HealthManager healthManager;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        healthManager = GetComponent<HealthManager>();
         agent.speed = speed;
+    }
+
+    private void OnEnable()
+    {
+        healthManager.OnDie += OnDie;
+    }
+
+    private void OnDisable()
+    {
+        healthManager.OnDie -= OnDie;
     }
 
     private void FixedUpdate()
@@ -46,5 +58,10 @@ public class EnemyController : MonoBehaviour
             canDamage = false;
             currentDamagetime = 0;
         }
+    }
+
+    private void OnDie()
+    {
+        Destroy(gameObject);
     }
 }

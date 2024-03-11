@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private bool useCursor;
+    [SerializeField] private GameObject mobileInputUI;
 
     [Header("Healthbar")]
     [SerializeField] private Image healthbar;
@@ -26,6 +27,11 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+#if UNITY_ANDROID
+        mobileInputUI.SetActive(true);
+#else
+        mobileInputUI.SetActive(false);
+#endif
         inputActions = new PlayerInputActions();
         player = FindAnyObjectByType<PlayerMovements>();
         playerHealthManager = player.GetComponent<HealthManager>();

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &637585274348103270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2162495431363705010}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2162495431363705010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637585274348103270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.92}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2865156972932448768}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3316212089214433333
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +131,8 @@ GameObject:
   - component: {fileID: 7570707605506273698}
   - component: {fileID: 1240895898374110056}
   - component: {fileID: 6079192129992461184}
+  - component: {fileID: 1516082930021311074}
+  - component: {fileID: 5756663739878036772}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -124,6 +157,7 @@ Transform:
   - {fileID: 2861273129787871951}
   - {fileID: 6227216273871593082}
   - {fileID: 3796909455401310692}
+  - {fileID: 2162495431363705010}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8573178223607622755
@@ -265,6 +299,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCam: {fileID: 0}
   deathParticle: {fileID: 4440510066884751514}
+--- !u!114 &1516082930021311074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5157639403079637868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c09ed966ca682f44d8f13fd3ebd08866, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerScore: 0
+--- !u!114 &5756663739878036772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5157639403079637868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7de99aae4dc3cc444bf00610eaad715d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 1059972653887914757, guid: 468ec1958e5fa4f46886555dbb2e9346, type: 3}
+  firePoint: {fileID: 2162495431363705010}
 --- !u!1 &5764957663635933088
 GameObject:
   m_ObjectHideFlags: 0

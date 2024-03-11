@@ -9,6 +9,7 @@ public class PlayerInputController : MonoBehaviour
     private HealthManager healthManager;
 
     public event System.Action OnJumpPerformed;
+    public event System.Action OnFirePerformed;
 
     private void Awake()
     {
@@ -24,6 +25,7 @@ public class PlayerInputController : MonoBehaviour
         inputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
         inputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
         inputActions.Player.Jump.performed += ctx => OnJumpPerformed?.Invoke();
+        inputActions.Player.Fire.performed += ctx => OnFirePerformed?.Invoke();
         healthManager.OnDie += OnDie;
     }
 
@@ -31,21 +33,6 @@ public class PlayerInputController : MonoBehaviour
     {
         inputActions.Player.Disable();
         healthManager.OnDie -= OnDie;
-    }
-
-    public void OnTouch_Jump(InputAction.CallbackContext context)
-    {
-        OnJumpPerformed?.Invoke();
-    }
-
-    public void OnTouch_Look(InputAction.CallbackContext context)
-    {
-
-    }
-
-    public void OnTouch_Move(InputAction.CallbackContext context)
-    {
-        MoveInput = context.ReadValue<Vector2>();
     }
 
     private void OnDie()
