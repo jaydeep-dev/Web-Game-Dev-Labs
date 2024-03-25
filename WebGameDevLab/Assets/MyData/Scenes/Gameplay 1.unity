@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.14676651, g: 0.107711546, b: 0.20066878, a: 1}
+  m_IndirectSpecularColor: {r: 0.1646736, g: 0.14694697, b: 0.1695216, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 125.4621, y: 404.25558, z: 134.86832}
+  m_LocalPosition: {x: 128, y: 400, z: 128}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -437,14 +437,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715c3917a7925ce44b19e2997b3586e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 7752453986849007857, guid: 6b86dfeb10eb20345a9e935d80c85ee0, type: 3}
+  tilePrefab: {fileID: 1750022386455104593, guid: 42474954f7e479540a015fa918674dc2, type: 3}
   mapWidth: 256
   mapScale: 15
   mapMaterials:
-  - {fileID: 2100000, guid: 3cef9f0a6e977614fb4319fb02add1bc, type: 2}
-  - {fileID: 2100000, guid: 48dd3384628a8ac49a341b66dd0b5058, type: 2}
-  - {fileID: 2100000, guid: f3aed290214126443b6b6ecba7e44689, type: 2}
   - {fileID: 2100000, guid: c416552976880ae419a9269b1e25ea38, type: 2}
+  - {fileID: 2100000, guid: f3aed290214126443b6b6ecba7e44689, type: 2}
+  - {fileID: 2100000, guid: 48dd3384628a8ac49a341b66dd0b5058, type: 2}
+  - {fileID: 2100000, guid: 3cef9f0a6e977614fb4319fb02add1bc, type: 2}
+  tileFactories:
+  - factoryName: City
+    factory: {fileID: 0}
+  - factoryName: Grass
+    factory: {fileID: 0}
+  - factoryName: Water
+    factory: {fileID: 0}
+  - factoryName: Lava
+    factory: {fileID: 0}
 --- !u!64 &1206161417
 MeshCollider:
   m_ObjectHideFlags: 0

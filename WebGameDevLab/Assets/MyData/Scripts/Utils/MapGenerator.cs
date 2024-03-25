@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour
     [SerializeField] private float mapScale = 10;
 
     [SerializeField] private Material[] mapMaterials;
+    [SerializeField] private List<TileFactoryData> tileFactories;
 
     private GameObject[,] map;
     private float offsetX, offsetZ;
@@ -128,4 +129,11 @@ public class MapGenerator : MonoBehaviour
         float sample = Mathf.PerlinNoise(coordX, coordZ);
         return new Color(sample, sample, sample);
     }
+}
+
+[System.Serializable]
+public class TileFactoryData
+{
+    public string factoryName;
+    public AbstractFactoryTile factory;
 }
