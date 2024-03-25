@@ -2,9 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CollectibleItem : MonoBehaviour
+public class CollectibleItem : MonoBehaviour, IExp
 {
-    [SerializeField] private int itemWorth;
+    [field:SerializeField] public int Exp {get; private set;}
 
-    public int ItemWorth => itemWorth;
+    public int ItemWorth => Exp;
+
+    public void OnCollect()
+    {
+        Destroy(gameObject);
+    }
 }

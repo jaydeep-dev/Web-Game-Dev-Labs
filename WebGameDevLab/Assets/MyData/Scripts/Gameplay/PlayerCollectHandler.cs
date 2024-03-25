@@ -11,11 +11,11 @@ public class PlayerCollectHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out CollectibleItem item))
+        if (other.TryGetComponent(out IExp item))
         {
-            playerScore += item.ItemWorth;
+            playerScore += item.Exp;
             OnPlayerScoreChanged?.Invoke(playerScore);
-            Destroy(item.gameObject);
+            item.OnCollect();
         }
     }
 }

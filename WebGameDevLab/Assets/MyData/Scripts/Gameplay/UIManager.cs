@@ -87,6 +87,7 @@ public class UIManager : MonoBehaviour
     private IEnumerator PlayDeathAnims()
     {
         yield return new WaitForSeconds(1);
+        mobileInputUI.SetActive(false);
         pausePanel.SetActive(false);
         gameoverPanel.SetActive(true);
     }
