@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class PlayerShootHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
 
     private PlayerInputController playerInput;
@@ -24,9 +23,11 @@ public class PlayerShootHandler : MonoBehaviour
 
     private void OnFirePerformed()
     {
-        var bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Debug.Log("Shoot");
+        var bullet = ProjectileManager.Instance.Get();
+        bullet.gameObject.SetActive(true);
+        bullet.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(firePoint.forward * 100f, ForceMode.Impulse);
-        Destroy(bullet, 10f);
     }
 }
